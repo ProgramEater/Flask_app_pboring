@@ -25,11 +25,11 @@ from modules import comment_resource
 
 from dotenv import load_dotenv
 
-load_dotenv('.env.txt')
+load_dotenv('.env')
 
 app = Flask(__name__)
 
-app.config['SECRET_KEY'] = os.getenv('SECRET_KEY', 'q1Nwjap1wbnhWghsYD7dRoNblMvEK6')
+app.config['SECRET_KEY'] = os.getenv('SECRET_KEY', '4ZhikxdLR2DdeqOjc7Jr1vHRYI6svo')
 
 api = Api(app)
 
