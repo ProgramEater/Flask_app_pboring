@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="main-page-content">
+    <div class="main-page-grid">
+
+        {% set no_image_url = url_for("static", filename="img/news/no_image.png") %}
+
+        {% for elem in news %}
+        <div class="single-news-div">
+            <div class="main-page-news-title">
+                <a href="/news/{{ elem.id }}"> {{ elem.title }} </a>
+            </div>
+            <p>
+                {% set image_format = first_images_urls[elem.id].split(".")[-1] %}
+                {% if image_format not in ('jpg', 'jpeg', 'png', 'bmp') %}
+                    <a href="/news/{{ elem.id }}"> <img class="main-page-img" src="{{ no_image_url }}" alt="no image found"> </a>
+                {% else %}
+                    <a href="/news/{{ elem.id }}"> <img class="main-page-img" src="{{ first_images_urls[elem.id] }}" alt="no image found"> </a>
+                {% endif %}
+            </p>
+        </div>
+        {% endfor %}
+    </div>
+    <div style="margin-top: 10px;"></div>
+</div>
+{% endblock %}

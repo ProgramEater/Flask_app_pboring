@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="one-news-page-div">
+    <div>
+        <form action="" method="post">
+            {{ form.hidden_tag() }}
+            <p>
+                {{ form.text.label }}<br>
+                {{ form.text(class="form-control") }}<br>
+                {% for error in form.text.errors %}
+                    <p class="alert alert-danger" role="alert">
+                        {{ error }}
+                    </p>
+                {% endfor %}
+            </p>
+            <p>{{ form.submit(type="submit", class="btn btn-primary") }}</p>
+        </form>
+    </div>
+</div>
+{% endblock %}

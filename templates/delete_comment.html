@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="form-div">
+    <h1 style="text-align: center;">Delete comment</h1>
+    <form action="" method="post">
+        {{ form.hidden_tag() }}
+        <p> Are you sure you want to delete following comment? </p>
+
+        <div style="display: inline-box; word-wrap: break-word;">
+            <p style="margin-left: 20px">
+                {% for st in comment.text.split('\n') %}
+                    {{ st }}
+                {% endfor %}
+            </p>
+            <div style="color: #004282; text-align: right;">
+                {% set a = comment.creation_date %}
+                {{ a.day}} {{a.strftime('%B')[:3]}} {{a.strftime('%H')}}:{{a.strftime('%M')}} {{ a.strftime('%Y')}}
+            </div>
+        </div>
+
+        <p> {{ form.assure() }} {{ form.assure.label }} </p>
+        <p>{{ form.submit(type="submit", class="btn btn-primary") }}</p>
+        <p style="color: #D10000"> {{message}} </p>
+    </form>
+</div>
+{% endblock %}

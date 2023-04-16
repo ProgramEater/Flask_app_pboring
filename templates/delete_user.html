@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="form-div">
+    <h1 style="text-align: center;">Delete user</h1>
+    <form action="" method="post">
+        {{ form.hidden_tag() }}
+        <p> Are you sure you want to delete your profile? </p>
+        <p style="color: red;"> YOU WANT BE ABLE TO RECOVER IT AGAIN </p>
+
+        <div style="display: grid; grid-template-columns: 90px 1fr;">
+            <img src="{{user_pfp_url}}" alt="no image found" style="width: 90px; max-width: 90px; max-height: 90px; border-radius: 30px; align-self: center;">
+            <p style="margin-left: 10px; align-self: center; font-family: cursive; font-size: 2em;"> {{ user.nickname }} </p>
+        </div>
+
+        <div style="display: inline-box; word-wrap: break-word;">
+            <p>
+                {% for st in user.about.split('\n') %}
+                    {{ st }} <br>
+                {% endfor %}
+            </p>
+        </div>
+
+        <p> {{ form.assure() }} {{ form.assure.label }} </p>
+        <p>{{ form.submit(type="submit", class="btn btn-primary") }}</p>
+        <p style="color: #D10000"> {{message}} </p>
+    </form>
+</div>
+{% endblock %}

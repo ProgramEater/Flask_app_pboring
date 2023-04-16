@@ -1,0 +1,23 @@
+form {
+  color: #10DCF4;
+  margin-right: 1;
+  border: 1px solid #353F86;
+  border-radius: 3px;
+  padding: 10px;
+}
+
+.form-div {
+  color: #10DCF4;
+
+  border: 1px solid #002951;
+  border-radius: 10px;
+
+  width: 500px;
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 10%;
+
+  margin: auto;
+  padding: 10px;
+}

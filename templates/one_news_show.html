@@ -1,0 +1,104 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="one-news-page-div">
+    <div class="one-news-page-news">
+
+        <div class="one-news-page-images">
+            {% for img_url in news_images_url %}
+                <img class="one-news-page-img" src="{{ img_url }}" alt="">
+            {% endfor %}
+        </div>
+
+        <div class="one-news-page-news-info">
+            <div class="one-news-page-creator-div">
+                <a href="/user/profile/{{ news.creator.id }}"  style="align-self: center;"><img src="{{ creator_img_url }}" alt="no image" class="one-news-page-creator-img"> </a>
+                <a href="/user/profile/{{ news.creator.id }}" class="one-news-page-creator"> {{ news.creator.nickname }} </a>
+            </div>
+            <div class="one-news-page-news-description">
+                <h2> {{ news.title }} </h2>
+                <div style="display: inline-box; word-wrap: break-word; font-size: 0.9em; margin-bottom: 10px;">
+                    {% for tag in news.tags.split(";") %}
+                        {% if tag != '' %}
+                            <a href="/news/search/{{tag}}" style="text-decoration: none; color: #10DCF4;">#{{tag}} </a>
+                        {% endif %}
+                    {% endfor %}
+                </div>
+                <p style="text-align: left; font-size: 1.3em; font-family: cursive;">
+                    {% for st in news.about.split('\n') %}
+                        {{ st }} <br>
+                    {% endfor %}
+                </p>
+
+            </div>
+            <div style="text-align: right; font-size: 0.9em; color: #007EA3;">
+                {% set a = news.creation_date %}
+                {{ a.day}} {{a.strftime('%B')[:3]}} {{a.strftime('%H')}}:{{a.strftime('%M')}} {{ a.strftime('%Y')}}
+            </div>
+        </div>
+
+    </div>
+    {% if current_user.is_authenticated %}
+        <div class="one-news-page-form-div">
+            <form action="" method="post">
+                {{ form.hidden_tag() }}
+                <p>
+                    {{ form.text.label }}<br>
+                    {{ form.text(class="form-control") }}<br>
+                    {% for error in form.text.errors %}
+                        <p class="alert alert-danger" role="alert">
+                            {{ error }}
+                        </p>
+                    {% endfor %}
+                </p>
+                <p style="align-self: top; margin-top: 24px;">{{ form.submit(type="submit", class="btn btn-primary", style="height: 65px;") }}</p>
+            </form>
+        </div>
+    {% else %}
+        <div style="text-align: center; font-family: cursive; color: #10DCF4; border: 1px solid #10DCF4; border-radius: 5px; padding: 5px; margin: 5px;"> login to leave a comment </div>
+    {% endif %}
+    <div class="one-news-page-comments">
+        {% for comment in comments %}
+            <div class="one-news-page-one-comment">
+                <div class="comment-creators">
+                    <a href="/user/profile/{{ comments_creators_dict[comment.id].id }}" style="align-self: center;"> <img class="comment-creator-img" src="{{ comments_creators_imgs_urls[comment.id] }}"> </a>
+                    <a href="/user/profile/{{ comments_creators_dict[comment.id].id }}" class="comment-creator-nickname"> {{ comments_creators_dict[comment.id].nickname }}: </a>
+                    {% if current_user.id == comment.creator_id %}
+                        <div>
+                            <a href="/comments/delete/{{comment.id}}" style="text-decoration: none; margin-left: 50px; color: #901616;"> delete </a>
+                            <a href="/comments/edit/{{comment.id}}" style="text-decoration: none; margin-left: 50px; color: #CD9526;"> edit </a>
+                        </div>
+                    {% endif %}
+                </div>
+
+
+                <div class="comment-text">
+                    <p style="margin-left: 30px;">
+                        {% for st in comment.text.split('\n') %}
+                            {{ st }} <br>
+                        {% endfor %}
+                    </p>
+                </div>
+
+                <div class="comment-date">
+                    {% set a = comment.creation_date %}
+                    {{ a.day}} {{a.strftime('%B')[:3]}} {{a.strftime('%H')}}:{{a.strftime('%M')}} {{ a.strftime('%Y')}}
+                    {% if comment.is_edited %}
+                        (edited)
+                    {% endif %}
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+</div>
+
+{% if news.creator == current_user %}
+    <div class="menu-news">
+        <button class="menu-news-button"> ... </button>
+        <div class="menu-news-content">
+            <a href="/news/edit/{{ news.id }}" class="menu-news-edit">Edit</a> <br>
+            <a href="/news/delete/{{ news.id }}" class="menu-news-delete">Delete</a> <br>
+        </div>
+    </div>
+{% endif %}
+{% endblock %}

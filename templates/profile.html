@@ -1,0 +1,87 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="page">
+    <div class="user-info">
+        <div class="user-head">
+            <img class="profile-picture" src="{{ user_img_url }}" alt="no image">
+            <div class="user-nickname-email">
+                <p class="user-nickname"> {{ user.nickname }} </p>
+                <p class="user-email"> {{ user.email }} </p>
+            </div>
+            {% if user == current_user %}
+                <div class="menu-user">
+                    <button class="menu-user-button"> ... </button>
+                    <div class="menu-user-content">
+                        <a href="/user/profile/edit/{{ user.id }}" class="menu-user-edit">Edit profile</a> <br>
+                        <a href="/user/profile/delete/{{ user.id }}" class="menu-user-delete">Delete profile</a> <br>
+                        <a href="/logout" class="menu-user-logout">Logout</a>
+                    </div>
+                </div>
+            {% endif %}
+        </div>
+        {% if user.about != '' %}
+            <div class="user-description">
+                <p>
+                    about: <br>
+                    <div style="margin: -10px; margin-left: 30px;">
+                        {% for st in user.about.split('\n') %}
+                            {{ st }} <br>
+                        {% endfor %}
+                    </div>
+
+                </p>
+            </div>
+        {% endif %}
+    </div>
+
+    {% if user.id != 1 %}
+        {% if user.news %}
+            <div class="user-news-heading"> {{ user.nickname }}'s news </div>
+        {% endif %}
+        <div class="news-grid">
+            {% for elem in user_news %}
+            <div class="single-news-div">
+                <div style="display: grid; grid-template-columns: 1fr 100px; grid-auto-rows: 60px;">
+                    <p class="p-news-title">
+                        <a href="/news/{{ elem.id }}" class="a-news-title"> {{ elem.title }} </a>
+                    </p>
+                    {% if user == current_user %}
+                        <div class="menu-news">
+                            <button class="menu-news-button"> ... </button>
+                            <div class="menu-news-content">
+                                <a href="/news/edit/{{ elem.id }}" class="menu-news-edit">Edit</a> <br>
+                                <a href="/news/delete/{{ elem.id }}" class="menu-news-delete">Delete</a> <br>
+                            </div>
+                        </div>
+                    {% endif %}
+                </div>
+
+                <div class="news-description-div">
+                    <p>
+                        {% for st in elem.about.split('\n') %}
+                            {{ st }} <br>
+                        {% endfor %}
+                    </p>
+                </div>
+
+                <div class="p-news-img">
+                    {% set no_image_url = url_for("static", filename="img/news/no_image.png") %}
+                    {% set image_format = first_images_urls[elem.id].split(".")[-1] %}
+                    {% if image_format not in ('jpg', 'jpeg', 'png', 'bmp') %}
+                        <a href="/news/{{ elem.id }}"> <img class="news-img" src="{{ no_image_url }}" alt="no image found"> </a>
+                    {% else %}
+                        <a href="/news/{{ elem.id }}"> <img class="news-img" src="{{ first_images_urls[elem.id] }}" alt="no image found"> </a>
+                    {% endif %}
+                </div>
+
+                <div style="text-align: right; font-size: 0.9em; color: #007EA3; margin: 7px;">
+                    {% set a = elem.creation_date %}
+                    {{ a.day}} {{a.strftime('%B')[:3]}} {{a.strftime('%H')}}:{{a.strftime('%M')}} {{ a.strftime('%Y')}}
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    {% endif %}
+</div>
+{% endblock %}

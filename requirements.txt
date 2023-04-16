@@ -1,0 +1,10 @@
+Flask==2.2.2
+Flask_Login==0.6.2
+Flask_RESTful==0.3.9
+Flask_WTF==1.1.1
+python-dotenv==1.0.0
+Requests==2.28.2
+SQLAlchemy==2.0.4
+SQLAlchemy_serializer==1.4.1
+Werkzeug==2.2.2
+WTForms==3.0.1

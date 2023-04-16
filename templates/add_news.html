@@ -1,0 +1,46 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="form-div">
+    <h1 style="text-align: center;">Add news</h1>
+    <form action="" method="post" enctype="multipart/form-data">
+        {{ form.hidden_tag() }}
+        <p>
+            {{ form.title.label }}<br>
+            {{ form.title(class="form-control") }}<br>
+            {% for error in form.title.errors %}
+                <p class="alert alert-danger" role="alert">
+                    {{ error }}
+                </p>
+            {% endfor %}
+        </p>
+        <p>
+            {{ form.about.label }}<br>
+            {{ form.about(class="form-control") }}<br>
+            {% for error in form.about.errors %}
+                <p class="alert alert-danger" role="alert">
+                    {{ error }}
+                </p>
+            {% endfor %}
+        </p>
+        <div>
+            <p>
+                {{ form.file_1.label }} - {{ form.file_1(type="file") }}<br>
+                {{ form.file_2.label }} - {{ form.file_2(type="file") }}<br>
+                {{ form.file_3.label }} - {{ form.file_3(type="file") }}<br>
+            </p>
+        </div>
+        <p>
+            {{ form.tags.label }}<br>
+            {{ form.tags(class="form-control") }}<br>
+            {% for error in form.tags.errors %}
+                <p class="alert alert-danger" role="alert">
+                    {{ error }}
+                </p>
+            {% endfor %}
+        </p>
+        <p>{{ form.submit(type="submit", class="btn btn-primary") }}</p>
+        <p style="color: #D10000"> {{message}} </p>
+    </form>
+</div>
+{% endblock %}
